@@ -39,16 +39,16 @@
 
         function isGameOver () {
 
-            var state = getBoardState(),
+            var state = getBoardState();
 
-                // One of the rows must be equal to either of these
-                // value for
-                // the game to be over
-                matches = ['XXX', 'OOO'],
+            // One of the rows must be equal to either of these
+            // value for
+            // the game to be over
+            var matches = ['XXX', 'OOO'];
 
                 // These are all of the possible combinations
                 // that would win the game
-                rows = [
+            var rows = [
                     state.a0 + state.a1 + state.a2,
                     state.b0 + state.b1 + state.b2,
                     state.c0 + state.c1 + state.c2,
@@ -116,23 +116,21 @@
 
             // If the game is still going, show who's turn it is
             if (!isGameOver()) {
-                renderTurnMessage();
+                return renderTurnMessage();
+            } 
 
             // If the game is over
+            // Show the message for the loser
+            if (myTurn) {
+                $('#messages').text('Game over. You lost.');
+
+            // Show the message for the winner
             } else {
-
-                // Show the message for the loser
-                if (myTurn) {
-                    $('#messages').text('Game over. You lost.');
-
-                // Show the message for the winner
-                } else {
-                    $('#messages').text('Game over. You won!');
-                }
-
-                // Disable the board
-                $('.board button').attr('disabled', true);
+                $('#messages').text('Game over. You won!');
             }
+
+            // Disable the board
+            $('.board button').attr('disabled', true);
         });
 
         // Set up the initial state when the game begins

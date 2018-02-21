@@ -14,7 +14,7 @@ server = http.Server(app);
 let port = 5000;
 
 server.listen(port, function () {
-    console.log(`Tictac game server running on port ${port}`);
+    console.log(`Tic-tac-toe game server running on port ${port}`);
 });
 
 io = socketIO(server);
@@ -40,7 +40,7 @@ function joinGame (socket) {
     };
 
     // Every other player is marked as 'unmatched', which means
-    // there is not another player to pair them with yet. As soon
+    // there is no another player to pair them with yet. As soon
     // as the next socket joins, the unmatched player is paired with
     // the new socket and the unmatched variable is set back to null
     if (unmatched) {
@@ -63,7 +63,7 @@ function getOpponent (socket) {
 }
 
 io.on('connection', function (socket) {
-
+    console.log("Connection established...", socket.id);
     joinGame(socket);
 
     // Once the socket has an opponent, we can begin the game
@@ -82,6 +82,7 @@ io.on('connection', function (socket) {
         if (!getOpponent(socket)) {
             return;
         }
+        console.log("Move made by : ", data);
         socket.emit('move.made', data);
         getOpponent(socket).emit('move.made', data);
     });
