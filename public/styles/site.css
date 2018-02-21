@@ -1,6 +1,10 @@
 body {
     text-align: center;
 }
+
+#symbol {
+    font-size: 2em;
+}
 .board {
     margin: auto;
     width: 350px;
