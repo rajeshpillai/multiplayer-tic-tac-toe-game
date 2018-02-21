@@ -4,6 +4,8 @@ var express = require('express'),
     socketIO = require('socket.io'),
     server, io;
 
+app.use(express.static('public'));
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
