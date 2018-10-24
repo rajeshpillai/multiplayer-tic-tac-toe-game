@@ -11,11 +11,13 @@ function getBoardState() {
     var obj = {};
 
     // We will compose an object of all of the Xs and Ox
-    // that are on the board
-    $('.board button').each(function () {
+    // that are on the board into an array of cells 
+    // Every cell contains either 'X', 'O' or ''
+    $('.cell').each(function () {
         obj[$(this).attr('id')] = $(this).text() || '';
     });
 
+    console.log("state: ", obj);
     return obj;
 }
 
