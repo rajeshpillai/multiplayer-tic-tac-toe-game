@@ -1,5 +1,5 @@
 var socket = io.connect(),  //io('http://localhost:5000'),
-myTurn = true, symbol;
+    myTurn = true, symbol;
 
 // One of the rows must be equal to either of these
 // value for
@@ -7,35 +7,34 @@ myTurn = true, symbol;
 var matches = ['XXX', 'OOO'];
 
 
-function getBoardState () {
-var obj = {};
+function getBoardState() {
+    var obj = {};
 
-// We will compose an object of all of the Xs and Ox
-// that are on the board
-$('.board button').each(function () {
-    obj[$(this).attr('id')] = $(this).text() || '';
-});
+    // We will compose an object of all of the Xs and Ox
+    // that are on the board
+    $('.board button').each(function () {
+        obj[$(this).attr('id')] = $(this).text() || '';
+    });
 
-return obj;
+    return obj;
 }
 
-function isGameOver () {
-
+function isGameOver() {
     var state = getBoardState();
     console.log("Board State: ", state);
 
-        // These are all of the possible combinations
-        // that would win the game
+    // These are all of the possible combinations
+    // that would win the game
     var rows = [
-            state.a0 + state.a1 + state.a2,
-            state.b0 + state.b1 + state.b2,
-            state.c0 + state.c1 + state.c2,
-            state.a0 + state.b1 + state.c2,
-            state.a2 + state.b1 + state.c0,
-            state.a0 + state.b0 + state.c0,
-            state.a1 + state.b1 + state.c1,
-            state.a2 + state.b2 + state.c2
-        ];
+        state.a0 + state.a1 + state.a2,
+        state.b0 + state.b1 + state.b2,
+        state.c0 + state.c1 + state.c2,
+        state.a0 + state.b1 + state.c2,
+        state.a2 + state.b1 + state.c0,
+        state.a0 + state.b0 + state.c0,
+        state.a1 + state.b1 + state.c1,
+        state.a2 + state.b2 + state.c2
+    ];
 
     // Loop over all of the rows and check if any of them compare
     // to either 'XXX' or 'OOO'
@@ -44,25 +43,27 @@ function isGameOver () {
             return true;
         }
     }
+    return false;
 }
 
-function renderTurnMessage () {
-
+function renderTurnMessage() {
     // Disable the board if it is the opponents turn
     if (!myTurn) {
         $('#messages').text('Your opponent\'s turn');
-        $('.board button').attr('disabled', true);
+        //$('.board button').attr('disabled', true);
+        $('.cell').attr('disabled', true);
 
-    // Enable the board if it is your turn
+        // Enable the board if it is your turn
     } else {
         $('#messages').text('Your turn.');
-        $('.board button').removeAttr('disabled');
+        //$('.board button').removeAttr('disabled');
+        $('.cell').removeAttr('disabled');
+
     }
 }
 
-function makeMove (e) {
+function makeMove(e) {
     e.preventDefault();
-
     // It's not your turn
     if (!myTurn) {
         return;
@@ -83,8 +84,7 @@ function makeMove (e) {
 
 // Event is called when either player makes a move
 socket.on('move.made', function (data) {
-
-    // Render the move
+    // Render the move, data.position holds the target cell ID
     $('#' + data.position).text(data.symbol);
 
     // If the symbol is the same as the player's symbol,
@@ -94,23 +94,23 @@ socket.on('move.made', function (data) {
     // If the game is still going, show who's turn it is
     if (!isGameOver()) {
         return renderTurnMessage();
-    } 
+    }
 
-    // If the game is over
-    // Show the message for the loser
+    // If the game is over Show the message for the loser
     if (myTurn) {
         $('#messages').text('Game over. You lost.');
-
-    // Show the message for the winner
+        // Show the message for the winner
     } else {
         $('#messages').text('Game over. You won!');
     }
 
     // Disable the board
-    $('.board button').attr('disabled', true);
+    //$('.board button').attr('disabled', true);
+    $('.cell').attr('disabled', true);
 });
 
 // Set up the initial state when the game begins
+// This method is called from the server
 socket.on('game.begin', function (data) {
     // The server will asign X or O to the player
     $("#symbol").html(data.symbol);  // Show the players symbol
@@ -124,10 +124,12 @@ socket.on('game.begin', function (data) {
 // Disable the board if the opponent leaves
 socket.on('opponent.left', function () {
     $('#messages').text('Your opponent left the game.');
-    $('.board button').attr('disabled', true);
+    //$('.board button').attr('disabled', true);
+    $('.cell').attr('disabled', true);
 });
 
 $(function () {
     $('.board button').attr('disabled', true);
-    $('.board > button').on('click', makeMove);
+    //$('.board > button').on('click', makeMove);
+    $(".cell").on("click", makeMove);
 });

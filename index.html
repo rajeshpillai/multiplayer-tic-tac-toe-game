@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <link href="styles/site.css" rel="stylesheet" />
-    </head>
-    <body>
-        Your Symbol: <div id="symbol">waiting...</div>
-        <div class="board">
-            <button id="a0"></button>
-            <button id="a1"></button>
-            <button id="a2"></button>
-            <button id="b0"></button>
-            <button id="b1"></button>
-            <button id="b2"></button>
-            <button id="c0"></button>
-            <button id="c1"></button>
-            <button id="c2"></button>
 
-            <div id="messages">Waiting for opponent to join...</div>
-        </div>
+<head>
+    <link href="styles/site.css" rel="stylesheet" />
+</head>
 
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="app/tictactoe.js"></script>
-    </body>
+<body>
+    Your Symbol: <div id="symbol">waiting...</div>
+    <div class="board">
+        <button class="cell" id="a0"></button>
+        <button class="cell" id="a1"></button>
+        <button class="cell" id="a2"></button>
+        <button class="cell" id="b0"></button>
+        <button class="cell" id="b1"></button>
+        <button class="cell" id="b2"></button>
+        <button class="cell" id="c0"></button>
+        <button class="cell" id="c1"></button>
+        <button class="cell" id="c2"></button>
+
+        <div id="messages">Waiting for opponent to join...</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="app/tictactoe.js"></script>
+</body>
+
 </html>
