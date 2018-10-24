@@ -1,8 +1,7 @@
 var express = require('express'),
     app = express(),
-    http = require('http'),
-    socketIO = require('socket.io'),
-    server, io;
+    http = require('http').Server(app);
+
 
 app.use(express.static('public'));
 
@@ -10,19 +9,19 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
-server = http.Server(app);
 let port = 5000;
 
-server.listen(port, function () {
+http.listen(port, function () {
     console.log(`Tic-tac-toe game server running on port ${port}`);
 });
 
-io = socketIO(server);
+
+const io = require('socket.io')(http);
 
 var players = {},
     unmatched;
 
-function joinGame (socket) {
+function joinGame(socket) {
 
     // Add the player to our object of players
     players[socket.id] = {
@@ -53,7 +52,7 @@ function joinGame (socket) {
 }
 
 // Returns the opponent socket
-function getOpponent (socket) {
+function getOpponent(socket) {
     if (!players[socket.id].opponent) {
         return;
     }
